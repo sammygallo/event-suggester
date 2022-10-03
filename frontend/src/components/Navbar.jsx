@@ -1,18 +1,46 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
+import "./navbar.css";
+import { useState } from "react";
+import { AiOutlineHome } from "react-icons/ai";
+import { CgProfile } from "react-icons/cg";
+import { AiOutlineSchedule } from "react-icons/ai";
 
-export const Navbar = () => {
+const Navbar = () => {
+  const [activeNav, setActiveNav] = useState("#");
+
   return (
     <div>
-      <Nav defaultActiveKey="/home" as="ul">
-        <Nav.Item as="li">
-          <Nav.Link href="/home">Active</Nav.Link>
+      <Nav className="justify-content-end" activeKey="/home">
+        <Nav.Item>
+          <a
+            href="#"
+            onClick={() => setActiveNav("#")}
+            className={activeNav === "#" ? "active" : ""}
+          >
+            {" "}
+            <AiOutlineHome />
+          </a>
         </Nav.Item>
-        <Nav.Item as="li">
-          <Nav.Link eventKey="link-1">Link</Nav.Link>
+        <Nav.Item>
+          <a
+            href="#profile"
+            onClick={() => setActiveNav("#profile")}
+            className={activeNav === "#profile" ? "active" : ""}
+          >
+            {" "}
+            <CgProfile />
+          </a>
         </Nav.Item>
-        <Nav.Item as="li">
-          <Nav.Link eventKey="link-2">Link</Nav.Link>
+        <Nav.Item>
+          <a
+            href="#Itinerary"
+            onClick={() => setActiveNav("#itinerary")}
+            className={activeNav === "#itinerary" ? "active" : ""}
+          >
+            {" "}
+            <AiOutlineSchedule />
+          </a>
         </Nav.Item>
       </Nav>
     </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import "./Header.css";
+import Navbar from "../components/Navbar";
 
 export const Header = () => {
   return (
@@ -7,6 +8,7 @@ export const Header = () => {
       <div className="container header-container">
         <h1>Event Suggester</h1>
       </div>
+      
     </header>
   );
 };
