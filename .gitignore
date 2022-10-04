@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# SSH key
+milestoneprojectawskey.pem
+
 # dependencies
 /frontend/node_modules
 /frontend/.pnp
