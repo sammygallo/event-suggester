@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineSchedule } from "react-icons/ai";
+//import GoogleMapSearch from "../searchbar/search";
 
 const Navbar = () => {
   const [activeNav, setActiveNav] = useState("#");
@@ -41,6 +42,9 @@ const Navbar = () => {
             {" "}
             <AiOutlineSchedule />
           </a>
+        </Nav.Item>
+        <Nav.Item>
+          {/* <GoogleMapSearch /> */}
         </Nav.Item>
       </Nav>
     </div>
