@@ -7,3 +7,15 @@
   position: absolute;
   z-index: 1;
 }
+
+.nav-container {
+  width: 100%;
+  padding: 1rem;
+  margin: 0;
+  position: absolute;
+  z-index: 1;
+  display: flex !important;
+  justify-content: space-around;
+  background: rgb(162, 174, 187);
+  background: linear-gradient(180deg, rgba(162, 174, 187, 1) 0%, rgba(162, 174, 187, 1) 85%, rgba(162, 174, 187, 0) 100%);
+}
