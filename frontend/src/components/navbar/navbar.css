@@ -1,8 +1,9 @@
 .justify-content-end {
-  display: inline-block;
   width: max-content;
   padding: 15px 10px;
   margin: 5px;
   display: flex;
   gap: 4rem;
+  position: absolute;
+  z-index: 1;
 }
