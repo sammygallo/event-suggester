@@ -8,13 +8,12 @@ import {
   Input,
   Text,
   SkeletonText,
+  position,
 } from '@chakra-ui/react'
 import { FaLocationArrow, FaTimes } from 'react-icons/fa'
 import { useJsApiLoader, GoogleMap, Marker, Autocomplete, DirectionsRenderer, } from '@react-google-maps/api'
 import { useState, useRef } from 'react'
-//default center for google maps = eifel tower
-const center = { lat: 48.8584, lng: 2.2945 }
-
+//import { response } from 'express'
 function App() {
   // imports from cdn to be used in app
   const { isLoaded } = useJsApiLoader({
@@ -22,6 +21,22 @@ function App() {
     //libraries to be used
     libraries: ['places'],
   })
+ //default center for google maps = eifel tower
+  //const [ center, setCenter ] = useState({ });
+  const [ center, setCenter ] =  useState({lat: 48.8584, lng: 2.2945}) //lat: 48.8584, lng: 2.2945
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+      console.log( "Geolocation is not supported by this browser.");
+    }
+    setCenter(position)
+  }
+  function showPosition(position) {
+    console.log( position.coords.latitude , position.coords.longitude ) ;
+    setCenter( position.coords.latitude , position.coords.longitude ) ;
+  }
+  
 
   const [map, setMap] = useState(/** @type google.maps.Map */(null))
   const [directionsResponse, setDirectionsResponse] = useState(null)
@@ -35,6 +50,8 @@ function App() {
   if (!isLoaded) {
     return <SkeletonText />
   }
+  
+
   async function calculateRoute() {
     if (originRef.current.value === '' || destiantionRef.current.value === '') {
       return
@@ -59,7 +76,9 @@ function App() {
     originRef.current.value = ''
     destiantionRef.current.value = ''
   }
+  // getLocation();
   return (
+   
     <Flex
       position='relative'
       flexDirection='column'
@@ -110,6 +129,10 @@ function App() {
             <Button colorScheme='pink' type='submit' onClick={calculateRoute}>
               Calculate Route
             </Button>
+            {/* user location */}
+            <Button colorScheme='pink' type='submit' onClick={getLocation}>
+               user location
+            </Button>
             <IconButton
               aria-label='center back'
               icon={<FaTimes />}
@@ -125,13 +148,14 @@ function App() {
             icon={<FaLocationArrow />}
             isRound
             onClick={() => {
-              map.panTo(center)
-
+              map.panTo({center})
             }}
           />
+            
         </HStack>
       </Box>
     </Flex>
+  
   )
 }
 
