@@ -1,15 +1,13 @@
 import React, { useState, useRef } from "react";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Flex,
-  HStack,
-  IconButton,
-  Input,
-  Text,
-  SkeletonText,
-} from "@chakra-ui/react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+//import Flexbox from "@mui/material/Flexbox";
+import SkeletonText from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import { FaLocationArrow, FaTimes } from "react-icons/fa";
 import {
   useJsApiLoader,
@@ -68,34 +66,38 @@ function Map() {
   }
   return (
     <div>
-      <Flex
+      <Box
         className="map-container"
-        position="relative"
-        flexDirection="column"
-        alignItems="center"
-        bgPos="bottom"
-        h="100vh"
-        w="100vw"
-        margin="auto"
-        padding={8}
-        bgColor="#669bbc"
+        sx={{
+          position: "relative",
+          flexDirection: "column",
+          alignItems: "center",
+          bgPos: "bottom",
+          h: "100vh",
+          w: "100vw",
+          margin: "auto",
+          padding: 8,
+          bgColor: "#669bbc",
+        }}
       >
         <Box
           className="destination-container"
-          p={4}
-          borderRadius="lg"
-          mt={4}
-          bgColor="white"
-          shadow="base"
-          minW="container.md"
-          zIndex="1"
-          m={12}
-          border="solid 1.5px"
-          position="relative"
-          right={80}
-          top={5}
+          sx={{
+            p: 2,
+            borderRadius: "lg",
+            mt: 4,
+            bgColor: "white",
+            shadow: "base",
+            minW: "container.md",
+            zIndex: "1",
+            m: 12,
+            border: "solid 1.5px",
+            position: "relative",
+            right: 80,
+            top: 5,
+          }}
         >
-          <HStack spacing={4}>
+          <Stack spacing={4}>
             {/*  autocomplete = automatic tries to complete origin location or destination when starting to type */}
             <Autocomplete>
               <Input type="text" placeholder="Origin" ref={originRef} />
@@ -119,10 +121,10 @@ function Map() {
                 onClick={clearRoute}
               />
             </ButtonGroup>
-          </HStack>
-          <HStack spacing={4} mt={4} justifyContent="space-between">
-            <Text>Distance: {distance} </Text>
-            <Text>Duration: {duration} </Text>
+          </Stack>
+          <Stack spacing={4} mt={4} justifyContent="space-between">
+            <TextField>Distance: {distance} </TextField>
+            <TextField>Duration: {duration} </TextField>
             <IconButton
               aria-label="center back"
               icon={<FaLocationArrow />}
@@ -131,7 +133,7 @@ function Map() {
                 map.panTo(center);
               }}
             />
-          </HStack>
+          </Stack>
         </Box>
         <Box position="absolute" left={0} top={0} h="100%" w="100%" m={2}></Box>
         {/* google map box */}
@@ -154,7 +156,7 @@ function Map() {
             <DirectionsRenderer directions={directionsResponse} />
           )}
         </GoogleMap>
-      </Flex>
+      </Box>
     </div>
   );
 }
