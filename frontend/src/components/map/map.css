@@ -1,0 +1,15 @@
+.map {
+    position: absolute;
+    z-index: 0;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+.get-current-location-buton {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+}
