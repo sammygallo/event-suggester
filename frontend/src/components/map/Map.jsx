@@ -1,9 +1,6 @@
 import React from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import "./map.css";
-//import GetCurrentLocationButton from "./GetCurrentLocationButton"
-
-//import { Button } from 'react-bootstrap/lib/InputGroup';
 
 var center;
 
@@ -74,9 +71,9 @@ function MyComponent() {
           </defs>
         </svg>
       </button>
-      {/*<GetCurrentLocationButton />*/}
     </GoogleMap>
   ) : <></>
 }
 
 export default React.memo(MyComponent)
+
