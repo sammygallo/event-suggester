@@ -2,6 +2,7 @@ import React from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import "./map.css";
 
+
 var center;
 
 
