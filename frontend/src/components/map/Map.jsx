@@ -2,9 +2,11 @@ import React from 'react'
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 import "./map.css";
 
+
 var center;
 
-async function getUserCoords() {
+
+export async function getUserCoords() {
   let pos = await new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject);
   });
@@ -74,4 +76,5 @@ function MyComponent() {
   ) : <></>
 }
 
-export default React.memo(MyComponent)
+export default MyComponent;
+//React.memo(MyComponent)
