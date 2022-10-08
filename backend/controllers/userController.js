@@ -1,61 +1,75 @@
-const Users = require("express").Router();
-const db = require("../models");
-const { user, post, comment } = db;
+const User = require("../models/user.model.js");
+const config = require("../config/config");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { NotFoundError } = require("../helpers/utility");
 
-//GET SPECIFIC USER
-Users.get("/:id", async (req, res) => {
+// Register a new User
+exports.register = async (req, res) => {
+  //Hash password
+  const salt = await bcrypt.genSalt(10);
+  const hasPassword = await bcrypt.hash(req.body.password, salt);
+
+  // Create an user object
+  const user = new User({
+    mobile: req.body.mobile,
+    email: req.body.email,
+    name: req.body.name,
+    password: hasPassword,
+    status: req.body.status || 1,
+  });
+  // Save User in the database
   try {
-    let includedModels = [];
-    let ordering = [];
+    const id = await User.create(user);
+    user.id = id;
+    delete user.password;
+    res.send(user);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+};
 
-    // include posts
-    if (req.query.withPosts === "true") {
-      includedModels.push({
-        model: post,
-      });
+// Login
+exports.login = async (req, res) => {
+  try {
+    // Check user exist
+    const user = await User.login(req.body.mobile_or_email);
+    if (user) {
+      const validPass = await bcrypt.compare(req.body.password, user.password);
+      if (!validPass)
+        return res.status(400).send("Mobile/Email or Password is wrong");
 
-      ordering.push([post, "date", "desc"]);
+      // Create and assign token
+      const token = jwt.sign(
+        { id: user.id, user_type_id: user.user_type_id },
+        config.TOKEN_SECRET
+      );
+      res.header("auth-token", token).send({ token: token });
+      // res.send("Logged IN");
     }
-
-    // find user
-    const foundUser = await user.findOne({
-      where: { user_id: req.params.id },
-      include: includedModels,
-      order: ordering,
-    });
-
-    // check that a user was found
-    if (!foundUser) {
-      // Found null
-      res.status(404).json({
-        message: `404: Could not find user with id of ${req.params.id}.`,
-      });
+  } catch (err) {
+    if (err instanceof NotFoundError) {
+      res.status(401).send(`Mobile/Email or Password is wrong`);
     } else {
-      // Found user
-      res.status(200).json(foundUser);
+      let error_data = {
+        entity: "User",
+        model_obj: { param: req.params, body: req.body },
+        error_obj: err,
+        error_msg: err.message,
+      };
+      res.status(500).send("Error retrieving User");
     }
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
   }
-});
+};
 
-//UPDATE USER
-Users.put("/:id", async (req, res) => {
-  try {
-    const updatedUser = await user.update(req.body, {
-      where: {
-        user_id: req.params.id,
-      },
-    });
-    res.status(200).json({
-      message: `Successfully updated user ${req.params.id}`,
-      updatedUser: updatedUser,
-    });
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
+// Access auth users only
+exports.authuseronly = (req, res) => {
+  res.send(
+    "Hey,You are authenticated user. So you are authorized to access here."
+  );
+};
 
-//EXPORT
-module.exports = Users;
+// Admin users only
+exports.adminonly = (req, res) => {
+  res.send("Success. Hellow Admin, this route is only for you");
+};
