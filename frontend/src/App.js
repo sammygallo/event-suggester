@@ -26,7 +26,7 @@ const App = () => {
           console.log(data);
         });
     
-  }, [coords, bounds]);
+  }, []);
 
 
   return (
